@@ -11,7 +11,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
+// {loginAuth}
 app.use(userRoutes)
+// {middleware}
 app.use(projectRoutes)
 app.use(taskRoutes)
 

@@ -1,5 +1,7 @@
+
 const { response } = require("express");
 const pool = require("../connection/dbConnection")
+const bcrypt = require('bcrypt');
 
 // Method GET
 exports.getUserAll = async (req, res) => {
@@ -26,8 +28,10 @@ exports.getUserById = async(req, res) => {
 exports.createUser = async(req, res) => {
     try{
         const { username, email, password } = req.body;
+
+        const hashedPassword = await bcrypt.hash(password, 10);
         await pool.query(
-                `INSERT INTO "user" (username, email, password) VALUES ($1, $2, $3)`, [username, email, password]
+                `INSERT INTO "user" (username, email, password) VALUES ($1, $2, $3)`, [username, email, hashedPassword]
         );
         res.status(201).send ({
             message: "Username Added Successfully",
